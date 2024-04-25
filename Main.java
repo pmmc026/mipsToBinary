@@ -11,7 +11,6 @@ public class Main {
         while((line = leitor.proximaLinha())!=null){
             System.out.println(Arrays.toString(line));
             System.out.println(dic.search(line));
-            
         }
     }
 }

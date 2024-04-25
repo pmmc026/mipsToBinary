@@ -20,12 +20,10 @@ public class LeitorTxt {
         try {
             String linha = entradaDeDados.readLine();
             if (linha != null) {
+                linha = linha.replace(",", "");
+                linha = linha.replace("(", " ");
+                linha = linha.replace(")", "");
                 linhaFatiada = linha.split(" ");
-                for(int i=0; i<linhaFatiada.length; i++){
-                    linhaFatiada[i] = linhaFatiada[i].replace(",", "");
-                    linhaFatiada[i] = linhaFatiada[i].replace("(", ", ");
-                    linhaFatiada[i] = linhaFatiada[i].replace(")", "");
-                }
             } else {
                 entradaDeDados.close();
                 linhaFatiada = null;
