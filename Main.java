@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        LeitorTxt leitor = new LeitorTxt("trabalho1/demo/src/main/java/com/programa1.txt");
+        LeitorTxt leitor = new LeitorTxt("demo\\src\\main\\java\\com\\programa1.txt");
         Dicionario dic = new Dicionario();
         String[] line;
         while((line = leitor.proximaLinha())!=null){
