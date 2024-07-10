@@ -113,7 +113,55 @@ public class Dicionario {
 
             binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "101011");
 
-        }else if (campo.equals("sll")) {
+        }
+        /**
+         * INSTRUÇÕES LÓGICAS E ARITMÉTICAS - TIPO I
+         */
+        else if (campo.equals("addi")) {
+
+            binaryResult = "001000";
+            binaryResult += tipoI(instruction[2], instruction[1], instruction[3]);
+
+        }else if (campo.equals("addiu")) {
+
+            binaryResult = "001001";
+            binaryResult += tipoI(instruction[2], instruction[1], instruction[3]);
+            
+        }else if (campo.equals("slti")) {
+            
+            binaryResult = "001010";
+            binaryResult += tipoI(instruction[2], instruction[1], instruction[3]);
+            
+        }else if (campo.equals("sltiu")) {
+
+            binaryResult = "001011";
+            binaryResult += tipoI(instruction[2], instruction[1], instruction[3]);
+            
+        }else if (campo.equals("andi")) {
+
+            binaryResult = "001100";
+            binaryResult += tipoI(instruction[2], instruction[1], instruction[3]);
+            
+        }else if (campo.equals("ori")) {
+
+            binaryResult = "001101";
+            binaryResult += tipoI(instruction[2], instruction[1], instruction[3]);
+            
+        }else if (campo.equals("xori")) {
+
+            binaryResult = "001110";
+            binaryResult += tipoI(instruction[2], instruction[1], instruction[3]);
+            
+        }else if (campo.equals("lui")) {
+
+            binaryResult = "001111";
+            binaryResult += tipoI("$zero", instruction[1], instruction[2]);
+            
+        }
+        /**
+         * INSTRUÇÕES DE DESLOCAMENTO DE BITS - TIPO R
+         */
+        else if (campo.equals("sll")) {
 
             binaryResult = tipoR("00000", instruction[3], instruction[1], instruction[2], "000000"); // instrução shamt - registrador "rs" é lido como "sa"
 
@@ -137,7 +185,11 @@ public class Dicionario {
 
             binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "000111");
 
-        }else if (campo.equals("mfhi")) {
+        }
+        /**
+         * INSTRUÇÕES DE MULTIPLICAÇÃO E DIVISÃO - TIPO R
+         */
+        else if (campo.equals("mfhi")) {
 
             binaryResult = tipoR("00000", "00000", instruction[1], "00000", "010000");
 
@@ -169,7 +221,11 @@ public class Dicionario {
 
             binaryResult = tipoR(instruction[1], instruction[2], "00000", "00000", "011011");
 
-        }else if (campo.equals("jr")) {
+        }
+        /**
+         * INSTRUÇÕES DE DESVIO - TIPO R
+         */
+        else if (campo.equals("jr")) {
 
             binaryResult = tipoR(instruction[1], "00000", "00000", "00000", "001000");
 
@@ -177,7 +233,21 @@ public class Dicionario {
             
             binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "001001");
         }
-        
+
+        /**
+         * INSTRUÇÕES DE DESVIO - TIPO J
+         */
+        else if(campo.equals("j")){
+            
+            binaryResult = "000010";
+            binaryResult += tipoJ(instruction[1]);
+            
+        }else if(campo.equals("jal")){
+
+            binaryResult = "000011";
+            binaryResult += tipoJ(instruction[1]);
+            
+        }
         return binaryResult;
     }
 
@@ -226,7 +296,7 @@ public class Dicionario {
         String binary = "";
         binary += registrador(rs);
         binary += registrador(rt);
-        binary += String.format("%1$"+16+"s",toBinary(immediate));
+        binary += spaceToZero(String.format("%1$"+16+"s",toBinary(immediate)));
         return binary;
     }
 
@@ -240,13 +310,26 @@ public class Dicionario {
         return binary;
     }
 
+    public String tipoJ(String instr_index){
+        String binary = "";
+        binary += spaceToZero(String.format("%1$"+26+"s",toBinary(instr_index)));
+        return binary;
+    }
+
     public String toBinary(String immediate){
         int aux = Integer.parseInt(immediate);
-        immediate = String.format("%1$"+16+"s", Integer.toBinaryString(aux));
-        while(immediate.contains(" ")){
-            immediate = immediate.replace(" ", "0");
-        }
+        immediate = Integer.toBinaryString(aux);
+        //immediate = String.format("%1$"+16+"s", Integer.toBinaryString(aux));
         return immediate;
     }
+
+    public String spaceToZero(String x){
+        while(x.contains(" ")){
+            x = x.replace(" ", "0");
+        }
+        return x;
+    }
+
+    //TODO: bltz, bgez, bltzal, bgezal, beq, bne, blez, bgtz
 
 }
