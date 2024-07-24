@@ -22,12 +22,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        /*Dicionario dic = new Dicionario();
-        System.out.println(dic.toBinary("1"));
-        System.out.println(dic.toBinary("-1"));
-        System.out.println(dic.toBinary("30"));
-        System.out.println(dic.toBinary("-30"));*/
     }
     
 }
