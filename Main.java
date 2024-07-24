@@ -1,16 +1,33 @@
-package com.arquitetura;
-
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-        LeitorTxt leitor = new LeitorTxt("demo\\src\\main\\java\\com\\programa1.txt");
+    public static void main(String[] args) throws FileNotFoundException, IOException{
+        LeitorTxt leitor = new LeitorTxt("programa1.txt");
         Dicionario dic = new Dicionario();
         String[] line;
+        String binary = "";
+
         while((line = leitor.proximaLinha())!=null){
-            System.out.println(Arrays.toString(line));
-            System.out.println(dic.search(line));
+            binary += dic.search(line) + "\n";
         }
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("resultado.txt"));
+            bufferedWriter.write(binary, 0, binary.length());
+            bufferedWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*Dicionario dic = new Dicionario();
+        System.out.println(dic.toBinary("1"));
+        System.out.println(dic.toBinary("-1"));
+        System.out.println(dic.toBinary("30"));
+        System.out.println(dic.toBinary("-30"));*/
     }
+    
 }

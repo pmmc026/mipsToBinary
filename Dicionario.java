@@ -1,5 +1,3 @@
-package com.arquitetura;
-
 public class Dicionario {
 
     public String search(String[] instruction){
@@ -237,16 +235,58 @@ public class Dicionario {
         /**
          * INSTRUÇÕES DE DESVIO - TIPO J
          */
-        else if(campo.equals("j")){
+        else if (campo.equals("j")) {
             
             binaryResult = "000010";
             binaryResult += tipoJ(instruction[1]);
             
-        }else if(campo.equals("jal")){
+        }else if (campo.equals("jal")) {
 
             binaryResult = "000011";
             binaryResult += tipoJ(instruction[1]);
             
+        }
+
+        /**
+         * INSTRUÇÕES DE DESVIO - TIPO I
+         */
+        else if (campo.equals("bltz")) {
+
+            binaryResult = "000001";
+            binaryResult += branchTipoI(instruction[1], "00000", instruction[2]);
+            
+        }else if(campo.equals("bgez")){
+
+            binaryResult = "000001";
+            binaryResult += branchTipoI(instruction[1], "00001", instruction[2]);
+            
+        }else if(campo.equals("bltzal")){
+
+            binaryResult = "000001";
+            binaryResult += branchTipoI(instruction[1], "10000", instruction[2]);
+            
+        }else if(campo.equals("bgezal")){
+
+            binaryResult = "000001";
+            binaryResult += branchTipoI(instruction[1], "10001", instruction[2]);
+            
+        }else if(campo.equals("beq")){
+
+            binaryResult = "000100";
+            binaryResult += tipoI(instruction[1], instruction[2], instruction[3]);
+            
+        }else if(campo.equals("bne")){
+
+            binaryResult = "000101";
+            binaryResult += tipoI(instruction[1], instruction[2], instruction[3]);
+            
+        }else if(campo.equals("blez")){
+            binaryResult = "000110";
+            binaryResult += branchTipoI(instruction[1], "00000", instruction[2]);
+            
+        }else if(campo.equals("bgtz")){
+            binaryResult = "000111";
+            binaryResult += branchTipoI(instruction[1], "00000", instruction[2]);
         }
         return binaryResult;
     }
@@ -296,7 +336,15 @@ public class Dicionario {
         String binary = "";
         binary += registrador(rs);
         binary += registrador(rt);
-        binary += spaceToZero(String.format("%1$"+16+"s",toBinary(immediate)));
+        binary += toBinary(immediate);
+        return binary;
+    }
+
+    public String branchTipoI(String rs, String num, String immediate) {
+        String binary = "";
+        binary += registrador(rs);
+        binary += num;
+        binary += toBinary(immediate);
         return binary;
     }
 
@@ -310,26 +358,22 @@ public class Dicionario {
         return binary;
     }
 
-    public String tipoJ(String instr_index){
-        String binary = "";
-        binary += spaceToZero(String.format("%1$"+26+"s",toBinary(instr_index)));
-        return binary;
-    }
-
     public String toBinary(String immediate){
         int aux = Integer.parseInt(immediate);
-        immediate = Integer.toBinaryString(aux);
-        //immediate = String.format("%1$"+16+"s", Integer.toBinaryString(aux));
-        return immediate;
-    }
+        StringBuilder binary = new StringBuilder();
 
-    public String spaceToZero(String x){
-        while(x.contains(" ")){
-            x = x.replace(" ", "0");
+        for (int i = 0; i < 16; i++) {
+            binary.insert(0, (aux & 1));
+            aux >>= 1;
         }
-        return x;
+        
+        return binary.toString();
     }
 
-    //TODO: bltz, bgez, bltzal, bgezal, beq, bne, blez, bgtz
-
+    public String tipoJ(String instr_index){
+        String binary = "";
+        binary += toBinary(instr_index);
+        return binary;
+    }
+    
 }
