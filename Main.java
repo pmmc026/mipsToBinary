@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException{
-        LeitorTxt leitor = new LeitorTxt("teste.txt");
+        LeitorTxt leitor = new LeitorTxt("programa1.txt");
         Dicionario dic = new Dicionario();
         String[] line;
         String binary = "";
