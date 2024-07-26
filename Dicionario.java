@@ -161,27 +161,27 @@ public class Dicionario {
          */
         else if (campo.equals("sll")) {
 
-            binaryResult = tipoR("00000", instruction[3], instruction[1], instruction[2], "000000"); // instrução shamt - registrador "rs" é lido como "sa"
+            binaryResult = tipoR("00000", instruction[2], instruction[1], instruction[3], "000000"); // instrução shamt
 
         }else if (campo.equals("srl")) {
 
-            binaryResult = tipoR("00000", instruction[3], instruction[1], instruction[2], "000010"); // instrução shamt - registrador "rs" é lido como "sa"
+            binaryResult = tipoR("00000", instruction[2], instruction[1], instruction[3], "000010"); // instrução shamt
             
         }else if (campo.equals("sra")) {
 
-            binaryResult = tipoR("00000", instruction[3], instruction[1], instruction[2], "000011"); // instrução shamt - registrador "rs" é lido como "sa"
+            binaryResult = tipoR("00000", instruction[2], instruction[1], instruction[3], "000011"); // instrução shamt
 
         }else if (campo.equals("sllv")) {
 
-            binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "000100");
+            binaryResult = tipoR(instruction[3], instruction[2], instruction[1], "00000", "000100");
 
         }else if (campo.equals("srlv")) {
 
-            binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "000110");
+            binaryResult = tipoR(instruction[3], instruction[2], instruction[1], "00000", "000110");
 
         }else if (campo.equals("srav")) {
 
-            binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "000111");
+            binaryResult = tipoR(instruction[3], instruction[2], instruction[1], "00000", "000111");
 
         }
         /**
@@ -336,7 +336,7 @@ public class Dicionario {
         String binary = "";
         binary += registrador(rs);
         binary += registrador(rt);
-        binary += toBinary(immediate);
+        binary += toBinary(immediate, 16);
         return binary;
     }
 
@@ -344,7 +344,7 @@ public class Dicionario {
         String binary = "";
         binary += registrador(rs);
         binary += num;
-        binary += toBinary(immediate);
+        binary += toBinary(immediate, 16);
         return binary;
     }
 
@@ -353,16 +353,15 @@ public class Dicionario {
         binary += registrador(rs);
         binary += registrador(rt);
         binary += registrador(rd);
-        binary += shamt;
+        binary += toBinary(shamt, 5);
         binary += funct;
         return binary;
     }
 
-    public String toBinary(String immediate){
+    public String toBinary(String immediate, int bitAmount){
         int aux = Integer.parseInt(immediate);
         StringBuilder binary = new StringBuilder();
-
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < bitAmount; i++) {
             binary.insert(0, (aux & 1));
             aux >>= 1;
         }
@@ -372,7 +371,7 @@ public class Dicionario {
 
     public String tipoJ(String instr_index){
         String binary = "";
-        binary += toBinary(instr_index);
+        binary += toBinary(instr_index, 16);
         return binary;
     }
     
