@@ -229,7 +229,7 @@ public class Dicionario {
 
         }else if (campo.equals("jalr")) {
             
-            binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "001001");
+            binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "001001"); // isso está errado - paulo
         }
 
         /**
