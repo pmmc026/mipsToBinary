@@ -228,8 +228,11 @@ public class Dicionario {
             binaryResult = tipoR(instruction[1], "00000", "00000", "00000", "001000");
 
         }else if (campo.equals("jalr")) {
-            
-            binaryResult = tipoR(instruction[2], instruction[3], instruction[1], "00000", "001001"); // isso está errado - paulo
+            if (instruction.length == 3) {
+                binaryResult = tipoR(instruction[2], "00000", instruction[1], "00000", "001001");
+            } else {
+                binaryResult = tipoR(instruction[1], "00000", "$ra", "00000", "001001");
+            }
         }
 
         /**
@@ -293,7 +296,21 @@ public class Dicionario {
 
     public String registrador(String reg) {
         String regBinary = "00000";
-        if (reg.equals("$t0")) {
+        if (reg.equals("$at")) {
+            regBinary = "00001";
+        } else if (reg.equals("$v0")) {
+            regBinary = "00010";
+        } else if (reg.equals("$v1")) {
+            regBinary = "00011";
+        } else if (reg.equals("$a0")) {
+            regBinary = "00100";
+        } else if (reg.equals("$a1")) {
+            regBinary = "00101";
+        } else if (reg.equals("$a2")) {
+            regBinary = "00110";
+        } else if (reg.equals("$a3")) {
+            regBinary = "00111";
+        } else if (reg.equals("$t0")) {
             regBinary = "01000";
         } else if (reg.equals("$t1")) {
             regBinary = "01001";
@@ -327,6 +344,22 @@ public class Dicionario {
             regBinary = "10110";
         } else if (reg.equals("$s7")) {
             regBinary = "10111";
+        }else if (reg.equals("$t8")) {
+            regBinary = "11000";
+        }else if (reg.equals("$t9")) {
+            regBinary = "11001";
+        }else if (reg.equals("$k0")) {
+            regBinary = "11010";
+        }else if (reg.equals("$k1")) {
+            regBinary = "11011";
+        }else if (reg.equals("$gp")) {
+            regBinary = "11100";
+        }else if (reg.equals("$sp")) {
+            regBinary = "11101";
+        }else if (reg.equals("$fp")) {
+            regBinary = "11110";
+        }else if (reg.equals("$ra")) {
+            regBinary = "11111";
         }
         
         return regBinary;
@@ -365,7 +398,6 @@ public class Dicionario {
             binary.insert(0, (aux & 1));
             aux >>= 1;
         }
-        
         return binary.toString();
     }
 
